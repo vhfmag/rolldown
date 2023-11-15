@@ -1,6 +1,7 @@
 #[cfg(all(
   not(all(target_os = "linux", target_env = "musl", target_arch = "aarch64")),
-  not(debug_assertions)
+  not(debug_assertions),
+  not(target_os = "wasi")
 ))]
 #[global_allocator]
 static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
