@@ -1,1 +1,5 @@
 *.node
+
+*.wasm
+rspack.wasi.mjs
+wasi-worker.mjs
