@@ -1,0 +1,15 @@
+{
+  "name": "wasi-demo",
+  "packageManager": "yarn@3.4.1",
+  "dependencies": {
+    "@emnapi/core": "^0.44.0",
+    "@emnapi/runtime": "^0.44.0",
+    "@tybys/wasm-util": "^0.8.0"
+  },
+  "scripts": {
+    "start": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

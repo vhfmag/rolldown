@@ -23,7 +23,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "rolldown",
+    "binaryName": "rolldown",
     "triples": {
       "defaults": true,
       "additional": [
@@ -50,8 +50,8 @@
   "scripts": {
     "artifacts": "napi artifacts",
     "bench": "node -r @swc-node/register benchmark/bench.ts",
-    "build": "napi build --platform --cargo-name rolldown_binding --cargo-cwd ../.. --pipe \"prettier -w\"",
-    "build:release": "napi build --platform --cargo-name rolldown_binding --cargo-cwd ../.. --release --pipe \"prettier -w\"",
+    "build": "napi build --platform",
+    "build:release": "napi build --platform --release ",
     "build:release:wasm": "napi build --platform --target wasm32-wasi-preview1-threads --release",
     "prepublishOnly": "napi prepublish -t lerna",
     "version": "napi version"

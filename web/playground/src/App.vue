@@ -30,6 +30,11 @@ onMounted(() => {
 
 const handleBuild = () => {
   const fileList = normalizeModules(moduleList.value)
+  const bundle = new Bundler({
+    input: [],
+    plugins: [],
+    cwd: "."
+  });
   let res = bundle(fileList)
   outputs.value = convertAssetListToModuleList(res)
 }
@@ -58,30 +63,16 @@ const handleToggleIsEntry = (item: any) => {
   <div class="container">
     <!-- module declaration block -->
     <div class="module-list column">
-      <ModuleBlock
-        v-for="item in moduleList"
-        :code="item.code"
-        :title="item.title"
-        :is-entry="item.isEntry"
-        @code="item.code = $event"
-        :auto-focus="item.autofocus"
-        @isEntry="handleToggleIsEntry(item)"
-        :can-modify-entry="item.canModifyEntry"
-        @title="item.title = $event.target.innerText"
-      />
+      <ModuleBlock v-for="item in moduleList" :code="item.code" :title="item.title" :is-entry="item.isEntry"
+        @code="item.code = $event" :auto-focus="item.autofocus" @isEntry="handleToggleIsEntry(item)"
+        :can-modify-entry="item.canModifyEntry" @title="item.title = $event.target.innerText" />
       <button @click="handleAddModule">Add module</button>
     </div>
     <!-- output block -->
     <div class="outputs column">
       <button @click="handleBuild" :disabled="!wasmLoadFinished">build</button>
-      <ModuleBlock
-        v-for="item in outputs"
-        :code="item.code"
-        :title="item.title"
-        :readonly="true"
-        @code="item.code = $event"
-        @title="item.title = $event.target.innerText"
-      />
+      <ModuleBlock v-for="item in outputs" :code="item.code" :title="item.title" :readonly="true"
+        @code="item.code = $event" @title="item.title = $event.target.innerText" />
     </div>
   </div>
 </template>

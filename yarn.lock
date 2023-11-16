@@ -408,6 +408,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emnapi/core@npm:^0.44.0":
+  version: 0.44.0
+  resolution: "@emnapi/core@npm:0.44.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 03b8c83ecf284ecaef5d7893523e7c76cb43226b26a4dc3d0b5e7aa8fa27e63ff253e27a705c8259e9c78f4be91c1f11a2f1348e59778df1097c46ad2f6d83f0
+  languageName: node
+  linkType: hard
+
+"@emnapi/runtime@npm:^0.44.0":
+  version: 0.44.0
+  resolution: "@emnapi/runtime@npm:0.44.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: b7a08ec6a7cda6a524b9771fe4bfc5c25f4ac8b8899c99ec7eb12363bef87ee4f5cada348beb4940a5e037491ce9c115bfade17dbece9a201f2234016fe4f1f3
+  languageName: node
+  linkType: hard
+
 "@esbuild/aix-ppc64@npm:0.19.11":
   version: 0.19.11
   resolution: "@esbuild/aix-ppc64@npm:0.19.11"
@@ -2258,6 +2276,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 7fa650acfc3fdcaf103f0f7acdf6f4cf67125632eb0f91c92d826375e262547d69de28838cf7a4b69fb665d2fb6f153558528fa1fddd5615a5aa838a87ed7d16
+  languageName: node
+  linkType: hard
+
+"@tybys/wasm-util@npm:^0.8.0":
+  version: 0.8.1
+  resolution: "@tybys/wasm-util@npm:0.8.1"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 4e1bb353313225e6c6901b49e969f7963e7802ddad0f79148f759c898d4fcb6761225c9dd622343810b6108a95ae3dfc9a716628dc5c1e40acb776d36d885bc4
   languageName: node
   linkType: hard
 
@@ -8501,6 +8528,7 @@ __metadata:
     tree-sitter: "npm:^0.20.6"
     tree-sitter-go: "npm:^0.20.0"
     typescript: "npm:^5.0.0"
+    vite: "npm:^5.0.0"
     zx: "npm:^7.2.0"
   languageName: unknown
   linkType: soft
@@ -12748,6 +12776,17 @@ __metadata:
   checksum: b8019ac4fb9ba1576839ec66d2217f62ab773c1cc4c704bfd1c79b1359fef5366f1382d3ab230a66a14c3adb1bf0fe102d1fdaa3437881e69154dfd1432abd32
   languageName: node
   linkType: hard
+
+"wasi-demo@workspace:web/wasi-demo":
+  version: 0.0.0-use.local
+  resolution: "wasi-demo@workspace:web/wasi-demo"
+  dependencies:
+    "@emnapi/core": "npm:^0.44.0"
+    "@emnapi/runtime": "npm:^0.44.0"
+    "@tybys/wasm-util": "npm:^0.8.0"
+    vite: "npm:^5.0.0"
+  languageName: unknown
+  linkType: soft
 
 "wasm-pack@npm:^0.12.1":
   version: 0.12.1
