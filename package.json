@@ -66,5 +66,8 @@
   "packageManager": "yarn@4.0.2",
   "engines": {
     "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "emnapi": "^0.44.0"
   }
 }

@@ -10,6 +10,7 @@
     "start": "vite"
   },
   "devDependencies": {
+    "memfs-browser": "^3.4.13000",
     "vite": "^5.0.0"
   }
 }
