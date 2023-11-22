@@ -48,6 +48,7 @@ impl Bundler {
   pub fn new_impl(env: Env, input_opts: InputOptions) -> napi::Result<Self> {
     NAPI_ENV.set(&env, || {
       let (opts, plugins) = input_opts.into();
+      dbg!(&opts);
 
       Ok(Self { inner: Mutex::new(NativeBundler::with_plugins(opts?, plugins?)) })
     })
@@ -121,6 +122,7 @@ impl Bundler {
       napi::Error::from_reason("Failed to lock the bundler. Is another operation in progress?")
     })?;
 
+    dbg!(&output_opts);
     let maybe_outputs = bundler_core.generate(output_opts.into()).await;
 
     let outputs = match maybe_outputs {

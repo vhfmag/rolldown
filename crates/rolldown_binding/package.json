@@ -53,6 +53,7 @@
     "build": "napi build --platform",
     "build:release": "napi build --platform --release ",
     "build:release:wasm": "napi build --platform --target wasm32-wasi-preview1-threads --release",
+    "build:wasm": "napi build --platform --target wasm32-wasi-preview1-threads ",
     "prepublishOnly": "napi prepublish -t lerna",
     "version": "napi version"
   },
