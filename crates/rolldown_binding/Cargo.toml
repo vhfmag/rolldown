@@ -17,8 +17,8 @@ crate-type = ["cdylib"]
 async-trait       = { workspace = true }
 derivative        = { workspace = true }
 futures           = { workspace = true }
-napi              = { version = "2.11.1", features = ["full"] }
-napi-derive       = { version = "2.11.0" }
+napi              = { version = "2.14.2", features = ["async"] }
+napi-derive       = { version = "2.14.6" }
 rolldown          = { path = "../rolldown" }
 rolldown_error    = { path = "../rolldown_error" }
 rolldown_tracing  = { path = "../rolldown_tracing" }
@@ -28,7 +28,6 @@ rustc-hash        = { workspace = true }
 scoped-tls        = { workspace = true }
 serde             = { workspace = true }
 tracing           = { workspace = true }
-
 
 [target.'cfg(all(not(target_os = "linux"), not(target_os = "wasi")))'.dependencies]
 mimalloc-rust = "0.2"

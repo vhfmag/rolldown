@@ -1,4 +1,7 @@
-import {Bundler} from './rolldown.wasi.mjs'
+import {Bundler, setupWasmPanicHook} from './index.js'
+
+setupWasmPanicHook()
+
 const a = new Bundler({
   input: [ {
     import: "./test.js"
@@ -6,7 +9,7 @@ const a = new Bundler({
   plugins: [],
   cwd: "./"
 })
-console.log('something')
+
 a.generate({}).then(res => {
   console.log(res)
 })

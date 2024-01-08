@@ -5,6 +5,8 @@ export class Bundler {
   constructor(inputOpts: InputOptions)
   write(opts: OutputOptions): Promise<Outputs>
   generate(opts: OutputOptions): Promise<Outputs>
+  build(): Promise<void>
+  scan(): Promise<void>
 }
 
 export interface HookResolveIdArgsOptions {
@@ -16,21 +18,7 @@ export interface InputItem {
   name?: string
   import: string
 }
-<<<<<<< HEAD
-export interface ResolveOptions {
-  alias?: Record<string, Array<string>>
-  aliasFields?: Array<Array<string>>
-  conditionNames?: Array<string>
-  exportsFields?: Array<Array<string>>
-  extensions?: Array<string>
-  mainFields?: Array<string>
-  mainFiles?: Array<string>
-  modules?: Array<string>
-  symlinks?: boolean
-}
-=======
 
->>>>>>> 84a6bc8 (chore: wasi target compilation)
 export interface InputOptions {
   external?: (
     source: string,
@@ -52,6 +40,7 @@ export interface OutputChunk {
   code: string
   fileName: string
   isEntry: boolean
+  isDynamicEntry: boolean
   facadeModuleId?: string
   modules: Record<string, RenderedModule>
   exports: Array<string>
@@ -92,25 +81,19 @@ export interface ResolveIdResult {
   external?: boolean
 }
 
+export interface ResolveOptions {
+  alias?: Record<string, Array<string>>
+  aliasFields?: Array<Array<string>>
+  conditionNames?: Array<string>
+  exportsFields?: Array<Array<string>>
+  extensions?: Array<string>
+  mainFields?: Array<string>
+  mainFiles?: Array<string>
+  modules?: Array<string>
+  symlinks?: boolean
+}
+
 export interface SourceResult {
   code: string
-  fileName: string
-  isEntry: boolean
-  facadeModuleId?: string
-  modules: Record<string, RenderedModule>
-  exports: Array<string>
-}
-export interface OutputAsset {
-  fileName: string
-  source: string
-}
-export interface Outputs {
-  chunks: Array<OutputChunk>
-  assets: Array<OutputAsset>
-}
-export class Bundler {
-  constructor(inputOpts: InputOptions)
-  write(opts: OutputOptions): Promise<Outputs>
-  generate(opts: OutputOptions): Promise<Outputs>
 }
 
