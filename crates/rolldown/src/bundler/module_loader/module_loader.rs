@@ -116,7 +116,7 @@ impl<T: FileSystem + 'static + Default> ModuleLoader<T> {
       let id = Self::alloc_module_id(&mut self.intermediate_modules, &mut self.symbols);
       self.remaining += 1;
       let task = RuntimeNormalModuleTask::new(id, self.common_data.tx.clone());
-      tokio::spawn(async move { task.run() });
+      std::thread::spawn(|| task.run());
       id
     })
   }

@@ -408,15 +408,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emnapi/core@npm:0.45.0":
-  version: 0.45.0
-  resolution: "@emnapi/core@npm:0.45.0"
-  dependencies:
-    tslib: "npm:^2.4.0"
-  checksum: 7736e53b6af05fe6e3bb49a7f59f93e7951a546704154e3758a408f8e1b2af9a0c88bab4508c02a023eb2baeefaab7fa9f666c4acd549be95684307886a5fadf
-  languageName: node
-  linkType: hard
-
 "@emnapi/core@npm:^0.44.0":
   version: 0.44.0
   resolution: "@emnapi/core@npm:0.44.0"
@@ -426,12 +417,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emnapi/runtime@npm:0.45.0":
+"@emnapi/core@npm:^0.45.0":
   version: 0.45.0
-  resolution: "@emnapi/runtime@npm:0.45.0"
+  resolution: "@emnapi/core@npm:0.45.0"
   dependencies:
     tslib: "npm:^2.4.0"
-  checksum: be9f794e7c52bff178975c7287e48c84bdab63ed7d4f21f9239f8101fcc04f059bff9b1c5d730cf0c7a6d812231a46749208c315bc085bb5170882c1c9163676
+  checksum: 7736e53b6af05fe6e3bb49a7f59f93e7951a546704154e3758a408f8e1b2af9a0c88bab4508c02a023eb2baeefaab7fa9f666c4acd549be95684307886a5fadf
   languageName: node
   linkType: hard
 
@@ -441,6 +432,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: b7a08ec6a7cda6a524b9771fe4bfc5c25f4ac8b8899c99ec7eb12363bef87ee4f5cada348beb4940a5e037491ce9c115bfade17dbece9a201f2234016fe4f1f3
+  languageName: node
+  linkType: hard
+
+"@emnapi/runtime@npm:^0.45.0":
+  version: 0.45.0
+  resolution: "@emnapi/runtime@npm:0.45.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: be9f794e7c52bff178975c7287e48c84bdab63ed7d4f21f9239f8101fcc04f059bff9b1c5d730cf0c7a6d812231a46749208c315bc085bb5170882c1c9163676
   languageName: node
   linkType: hard
 
@@ -924,13 +924,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:3.0.0-alpha.30":
-  version: 3.0.0-alpha.30
-  resolution: "@napi-rs/cli@npm:3.0.0-alpha.30"
+"@napi-rs/cli@npm:3.0.0-alpha.36":
+  version: 3.0.0-alpha.36
+  resolution: "@napi-rs/cli@npm:3.0.0-alpha.36"
   dependencies:
     "@napi-rs/cross-toolchain": "npm:^0.0.14"
     "@octokit/rest": "npm:^20.0.2"
-    "@tybys/wasm-util": "npm:0.8.0"
+    "@tybys/wasm-util": "npm:0.8.1"
     clipanion: "npm:^3.2.1"
     colorette: "npm:^2.0.20"
     debug: "npm:^4.3.4"
@@ -955,7 +955,7 @@ __metadata:
   bin:
     napi: dist/cli.js
     napi-raw: cli.mjs
-  checksum: 4b0bb58c65e708982bfd4fc36a2e587ca29fb4d2be60afd9fcc67505b9faf7df9d0a3bf13dc83c46b13bb47922a03d96a5ca22ced59d567f94eef74add7b6ebf
+  checksum: 22308414680358a7b2975809102f0512feb9124cf4bed9c35bcb7725206946389d58372ffcb1f82ac3cbec24018841051d981977e15909014158dc0115347e6b
   languageName: node
   linkType: hard
 
@@ -1265,6 +1265,17 @@ __metadata:
     "@napi-rs/tar-win32-x64-msvc":
       optional: true
   checksum: 5f43aa9866c8252237472b6f6c0cbf61dfb27a16247c4c5d526575833f607c34d1d7379820a9fc1f455c73e8d5306ece40c37b46800d42d8b7ff9971dd2f097b
+  languageName: node
+  linkType: hard
+
+"@napi-rs/wasm-runtime@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@napi-rs/wasm-runtime@npm:0.1.1"
+  dependencies:
+    "@emnapi/core": "npm:^0.45.0"
+    "@emnapi/runtime": "npm:^0.45.0"
+    "@tybys/wasm-util": "npm:^0.8.1"
+  checksum: 243b07483553ad73265aa8bd591047d28864672a22f3c61848509d1d3fb360b10eb1a012429fdca0eb7d88ef453d2fdfa34ead020e3a2317fbbd4ff35ae41917
   languageName: node
   linkType: hard
 
@@ -2109,9 +2120,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@rolldown/node-binding@workspace:crates/rolldown_binding"
   dependencies:
-    "@emnapi/core": "npm:0.45.0"
-    "@emnapi/runtime": "npm:0.45.0"
-    "@napi-rs/cli": "npm:3.0.0-alpha.30"
+    "@napi-rs/cli": "npm:3.0.0-alpha.36"
+    "@napi-rs/wasm-runtime": "npm:^0.1.1"
     "@swc-node/register": "npm:^1.5.4"
     "@swc/core": "npm:^1.3.22"
     "@tybys/wasm-util": "npm:0.8.1"
@@ -2603,16 +2613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tybys/wasm-util@npm:0.8.0":
-  version: 0.8.0
-  resolution: "@tybys/wasm-util@npm:0.8.0"
-  dependencies:
-    tslib: "npm:^2.4.0"
-  checksum: 7fa650acfc3fdcaf103f0f7acdf6f4cf67125632eb0f91c92d826375e262547d69de28838cf7a4b69fb665d2fb6f153558528fa1fddd5615a5aa838a87ed7d16
-  languageName: node
-  linkType: hard
-
-"@tybys/wasm-util@npm:0.8.1, @tybys/wasm-util@npm:^0.8.0":
+"@tybys/wasm-util@npm:0.8.1, @tybys/wasm-util@npm:^0.8.0, @tybys/wasm-util@npm:^0.8.1":
   version: 0.8.1
   resolution: "@tybys/wasm-util@npm:0.8.1"
   dependencies:
