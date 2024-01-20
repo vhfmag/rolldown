@@ -32,7 +32,7 @@ impl RuntimeNormalModuleTask {
   }
 
   #[tracing::instrument(skip_all)]
-  pub fn run(self) {
+  pub fn run(self) -> Result<(), tokio::sync::mpsc::error::SendError<Msg>> {
     let mut builder = NormalModuleBuilder::default();
 
     let source = include_str!("../runtime/runtime-without-comments.js").to_string();
@@ -72,15 +72,12 @@ impl RuntimeNormalModuleTask {
     builder.pretty_path = Some("<runtime>".to_string());
     builder.is_user_defined_entry = Some(false);
 
-    self
-      .tx
-      .send(Msg::RuntimeNormalModuleDone(RuntimeNormalModuleTaskResult {
-        warnings: self.warnings,
-        ast_symbol: symbol,
-        builder,
-        runtime,
-      }))
-      .unwrap();
+    self.tx.send(Msg::RuntimeNormalModuleDone(RuntimeNormalModuleTaskResult {
+      warnings: self.warnings,
+      ast_symbol: symbol,
+      builder,
+      runtime,
+    }))
   }
 
   fn make_ast(&self, source: String) -> (OxcProgram, AstScope, ScanResult, AstSymbol, SymbolRef) {

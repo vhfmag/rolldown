@@ -48,8 +48,6 @@ impl Bundler {
   pub fn new_impl(env: Env, input_opts: InputOptions) -> napi::Result<Self> {
     NAPI_ENV.set(&env, || {
       let (opts, plugins) = input_opts.into();
-      dbg!(&opts);
-
       Ok(Self { inner: Mutex::new(NativeBundler::with_plugins(opts?, plugins?)) })
     })
   }

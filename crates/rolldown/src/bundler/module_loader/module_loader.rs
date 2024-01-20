@@ -104,7 +104,12 @@ impl<T: FileSystem + 'static + Default> ModuleLoader<T> {
             module_path,
             info.module_type,
           );
-          tokio::spawn(async move { task.run().await });
+          #[cfg(not(target_arch = "wasm32"))]
+          tokio::spawn(task.run());
+          #[cfg(target_arch = "wasm32")]
+          std::thread::spawn(|| {
+            tokio::spawn(task.run());
+          });
         }
         id
       }
@@ -116,7 +121,7 @@ impl<T: FileSystem + 'static + Default> ModuleLoader<T> {
       let id = Self::alloc_module_id(&mut self.intermediate_modules, &mut self.symbols);
       self.remaining += 1;
       let task = RuntimeNormalModuleTask::new(id, self.common_data.tx.clone());
-      std::thread::spawn(|| task.run());
+      let _ = task.run();
       id
     })
   }

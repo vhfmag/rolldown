@@ -46,6 +46,7 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
   ) -> Self {
     Self { ctx, module_id: id, path, module_type }
   }
+
   pub async fn run(mut self) {
     if let Err(errs) = self.run_inner().await {
       self.ctx.tx.send(Msg::Errors(errs)).expect("Send should not fail");
@@ -53,8 +54,7 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
   }
 
   async fn run_inner(&mut self) -> BatchedResult<()> {
-    tracing::trace!("process {:?}", self.path);
-
+    println!("run inner");
     let mut warnings = vec![];
 
     // Run plugin load to get content first, if it is None using read fs as fallback.
@@ -111,7 +111,7 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
         builder,
         raw_import_records: import_records,
       }))
-      .expect("Send should not fail");
+      .map_err(|_| std::io::Error::new(std::io::ErrorKind::BrokenPipe, "Unable to send message"))?;
     Ok(())
   }
 
@@ -208,7 +208,7 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
     &mut self,
     dependencies: &IndexVec<ImportRecordId, RawImportRecord>,
   ) -> BatchedResult<IndexVec<ImportRecordId, ResolvedRequestInfo>> {
-    let jobs = dependencies.iter_enumerated().map(|(idx, item)| {
+    let jobs = dependencies.iter_enumerated().map(|(_, item)| {
       let specifier = item.module_request.clone();
       let input_options = Arc::clone(&self.ctx.input_options);
       // FIXME(hyf0): should not use `Arc<Resolver>` here
@@ -217,7 +217,7 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
       let importer = self.path.clone();
       let kind = item.kind;
       // let on_warn = self.input_options.on_warn.clone();
-      tokio::spawn(async move {
+      async move {
         Self::resolve_id(
           &input_options,
           &resolver,
@@ -227,16 +227,15 @@ impl<'task, T: FileSystem + Default + 'static> NormalModuleTask<'task, T> {
           HookResolveIdArgsOptions { is_entry: false, kind },
         )
         .await
-        .map(|id| (idx, id))
-      })
+      }
     });
 
     let resolved_ids = join_all(jobs).await;
 
     let mut errors = BatchedErrors::default();
     let mut ret = IndexVec::with_capacity(dependencies.len());
-    resolved_ids.into_iter().for_each(|handle| match handle.expect("Assuming no task panics") {
-      Ok((_idx, item)) => {
+    resolved_ids.into_iter().for_each(|handle| match handle {
+      Ok(item) => {
         ret.push(item);
       }
       Err(e) => {
