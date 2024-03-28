@@ -2,29 +2,22 @@ import { test } from 'vitest'
 import type { TestConfig } from './src/types'
 import { InputOptions, OutputOptions, rolldown } from 'rolldown'
 import nodePath from 'node:path'
-import * as fastGlob from 'fast-glob'
-import { loadTestConfig } from '@tests/utils'
 
 await main()
 
 async function main() {
-  const fixturesPath = nodePath.join(__dirname, 'fixtures')
-  const testConfigPaths = fastGlob.sync('fixtures/**/_config.ts', {
-    absolute: true,
-    cwd: __dirname,
-  })
-  for (const testConfigPath of testConfigPaths) {
-    const dirPath = nodePath.relative(
-      fixturesPath,
-      nodePath.dirname(testConfigPath),
-    )
+  const testConfigPaths = import.meta.glob<TestConfig>(
+    './fixtures/**/_config.ts',
+    { import: 'default', eager: true },
+  )
+  for (const [testConfigPath, testConfig] of Object.entries(testConfigPaths)) {
+    const dirPath = nodePath.dirname(testConfigPath)
+    const testName = dirPath.replace('./fixtures/', '')
 
-    const testConfig = await loadTestConfig(testConfigPath)
-    test.skipIf(testConfig.skip)(dirPath, async () => {
-      // FIXME: This empty log is here to make vitest shows stdout/stderr content made from rust. Wonder why.
+    test.skipIf(testConfig.skip)(testName, async () => {
       try {
         const output = await compileFixture(
-          nodePath.dirname(testConfigPath),
+          nodePath.join(import.meta.dirname, dirPath),
           testConfig,
         )
         if (testConfig.afterTest) {
