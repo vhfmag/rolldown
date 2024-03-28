@@ -5,9 +5,9 @@ import nodePath from 'node:path'
 import * as fastGlob from 'fast-glob'
 import { loadTestConfig } from '@tests/utils'
 
-main()
+await main()
 
-function main() {
+async function main() {
   const fixturesPath = nodePath.join(__dirname, 'fixtures')
   const testConfigPaths = fastGlob.sync('fixtures/**/_config.ts', {
     absolute: true,
@@ -18,15 +18,11 @@ function main() {
       fixturesPath,
       nodePath.dirname(testConfigPath),
     )
-    test(dirPath, async (ctx) => {
-      const testConfig = await loadTestConfig(testConfigPath)
-      if (testConfig.skip) {
-        ctx.skip()
-        return
-      }
+
+    const testConfig = await loadTestConfig(testConfigPath)
+    test.skipIf(testConfig.skip)(dirPath, async () => {
 
       // FIXME: This empty log is here to make vitest shows stdout/stderr content made from rust. Wonder why.
-      console.log()
       try {
         const output = await compileFixture(
           nodePath.dirname(testConfigPath),
@@ -36,8 +32,7 @@ function main() {
           testConfig.afterTest(output)
         }
       } catch (err) {
-        console.log(`Failed in ${testConfigPath}`)
-        throw err
+        throw new Error(`Failed in ${testConfigPath}`)
       }
     })
   }
