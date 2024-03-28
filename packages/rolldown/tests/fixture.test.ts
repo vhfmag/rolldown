@@ -21,7 +21,6 @@ async function main() {
 
     const testConfig = await loadTestConfig(testConfigPath)
     test.skipIf(testConfig.skip)(dirPath, async () => {
-
       // FIXME: This empty log is here to make vitest shows stdout/stderr content made from rust. Wonder why.
       try {
         const output = await compileFixture(
