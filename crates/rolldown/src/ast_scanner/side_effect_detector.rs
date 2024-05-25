@@ -4,6 +4,7 @@ use once_cell::sync::Lazy;
 use oxc::ast::ast::{
   BindingPatternKind, Expression, IdentifierReference, MemberExpression, PropertyKey,
 };
+use oxc::ast::Trivias;
 use oxc::span::Span;
 use rolldown_common::AstScope;
 use rustc_hash::FxHashSet;
@@ -22,9 +23,6 @@ static SIDE_EFFECT_FREE_MEMBER_EXPR_2: Lazy<FxHashSet<(&'static str, &'static st
     .collect()
   });
 
-static PURE_COMMENTS: Lazy<regex::Regex> =
-  Lazy::new(|| regex::Regex::new("^\\s*(#|@)__PURE__\\s*$").expect("Should create the regex"));
-
 static SIDE_EFFECT_FREE_MEMBER_EXPR_3: Lazy<FxHashSet<(&'static str, &'static str, &'static str)>> =
   Lazy::new(|| {
     [("Object", "prototype", "hasOwnProperty"), ("Object", "prototype", "constructor")]
@@ -36,20 +34,37 @@ static SIDE_EFFECT_FREE_MEMBER_EXPR_3: Lazy<FxHashSet<(&'static str, &'static st
 pub struct SideEffectDetector<'a> {
   pub scope: &'a AstScope,
   pub source: &'a Arc<str>,
-  pub attached_comment_vecmap: &'a mut Vec<(Span, bool)>,
+  pub trivias: &'a Trivias,
 }
 
 impl<'a> SideEffectDetector<'a> {
-  pub fn new(
-    scope: &'a AstScope,
-    source: &'a Arc<str>,
-    attached_comment_vecmap: &'a mut Vec<(Span, bool)>,
-  ) -> Self {
-    Self { scope, source, attached_comment_vecmap }
+  pub fn new(scope: &'a AstScope, source: &'a Arc<str>, trivias: &'a Trivias) -> Self {
+    Self { scope, source, trivias }
   }
 
   fn is_unresolved_reference(&mut self, ident_ref: &IdentifierReference) -> bool {
     self.scope.is_unresolved(ident_ref.reference_id.get().unwrap())
+  }
+
+  /// Comments containing @__PURE__ or #__PURE__ mark a specific function call
+  /// or constructor invocation as side effect free.
+  ///
+  /// Such an annotation is considered valid if it directly
+  /// precedes a function call or constructor invocation
+  /// and is only separated from the callee by white-space or comments.
+  ///
+  /// The only exception are parentheses that wrap a call or invocation.
+  ///
+  /// <https://rollupjs.org/configuration-options/#pure>
+  /// Copied from https://github.com/oxc-project/oxc/blob/147864cfeb112df526bb83d5b8671b465c005066/crates/oxc_linter/src/utils/tree_shaking.rs#L162-L171
+  pub fn has_pure_notation(&self, span: Span) -> bool {
+    let Some((start, comment)) = self.trivias.comments_range(..span.start).next_back() else {
+      return false;
+    };
+    let span = Span::new(*start, comment.end);
+    let raw = span.source_text(self.source);
+
+    raw.contains("@__PURE__") || raw.contains("#__PURE__")
   }
 
   fn detect_side_effect_of_class(&mut self, cls: &oxc::ast::ast::Class) -> bool {
@@ -207,47 +222,8 @@ impl<'a> SideEffectDetector<'a> {
       | Expression::JSXElement(_)
       | Expression::JSXFragment(_) => true,
       Expression::CallExpression(expr) => {
-        let leading_comment_index: Option<usize> = if self.attached_comment_vecmap.is_empty() {
-          None
-        } else {
-          // because the span is the content of comment, so the two span should never overlapped,
-          // the result Variant should be `Err(usize)`
-          let insert_index = self
-            .attached_comment_vecmap
-            .binary_search_by(|probe| probe.0.end.cmp(&expr.span.start));
-          let leading_comment_index = match insert_index {
-            Ok(_) => unreachable!(),
-            // n is the position to insert, so the comment index should be n - 1
-            Err(n) => n - 1,
-          };
-          let comment = self.attached_comment_vecmap[leading_comment_index];
-          if comment.1 {
-            None
-          } else {
-            Some(leading_comment_index)
-          }
-        };
-        let is_pure_comment = if let Some(leading_comment_index) = leading_comment_index {
-          // dbg!(&leading_comment);
-          let comment_span = self.attached_comment_vecmap[leading_comment_index].0;
-          // the end of a comment span is always 2 characters before the actual end of the comment
-          let res = &self.source[comment_span.end as usize + 2..expr.span.start as usize];
-          let is_interval_content_all_whitespace = res.chars().all(|ch| ch == ' ');
-          if is_interval_content_all_whitespace {
-            let comment_content =
-              &self.source[comment_span.start as usize..comment_span.end as usize];
-            let matched = PURE_COMMENTS.is_match(comment_content);
-            if matched {
-              self.attached_comment_vecmap[leading_comment_index].1 = true;
-            }
-            matched
-          } else {
-            false
-          }
-        } else {
-          false
-        };
-        if is_pure_comment {
+        let has_pure_notation = self.has_pure_notation(expr.span);
+        if has_pure_notation {
           expr.arguments.iter().any(|arg| match arg {
             oxc::ast::ast::Argument::SpreadElement(_) => true,
             // TODO: implement this
@@ -399,7 +375,6 @@ impl<'a> SideEffectDetector<'a> {
 
 #[cfg(test)]
 mod test {
-  use oxc::ast::CommentKind;
   use oxc::span::SourceType;
   use rolldown_common::AstScope;
   use rolldown_oxc_utils::{OxcAst, OxcCompiler};
@@ -423,20 +398,8 @@ mod test {
       )
     };
 
-    let mut attached_comment_vecmap =
-      ast
-        .trivias
-        .comments()
-        .filter_map(|(kind, span)| {
-          if matches!(kind, CommentKind::SingleLine) {
-            None
-          } else {
-            Some((span, false))
-          }
-        })
-        .collect::<Vec<_>>();
     let has_side_effect = ast.program().body.iter().any(|stmt| {
-      SideEffectDetector::new(&ast_scope, ast.source(), &mut attached_comment_vecmap)
+      SideEffectDetector::new(&ast_scope, ast.source(), &ast.trivias)
         .detect_side_effect_of_stmt(stmt)
     });
 
