@@ -1,0 +1,32 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/java_script_decorators_es_next
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+//#region entry.js
+@x.y() @(new y.x()) class Foo {
+	@x @y mUndef;
+
+	@x @y mDef=1;
+
+	@x @y method(){
+		return new Foo();
+	}
+	@x @y static sUndef;
+
+	@x @y static sDef=new Foo();
+
+	@x @y static sMethod(){
+		return new Foo();
+	}
+}
+
+//#endregion
+export { Foo as default };
+```

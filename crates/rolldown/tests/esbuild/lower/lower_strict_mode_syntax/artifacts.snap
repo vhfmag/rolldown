@@ -1,0 +1,16 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_strict_mode_syntax
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+//#region for-in.js
+if (test) for (var a = b in {}) ;
+for (var x = y in {}) ;
+//#endregion
+```

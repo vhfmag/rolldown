@@ -1,0 +1,30 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_private_class_expr2020_no_bundle
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+//#region entry.js
+let Foo = class {
+	#field;
+
+	#method(){
+	}
+	static #staticField;
+
+	static #staticMethod(){
+	}
+	foo(){
+		this.#field = this.#method();
+		Foo.#staticField = Foo.#staticMethod();
+	}
+};
+
+//#endregion
+export { Foo };
+```

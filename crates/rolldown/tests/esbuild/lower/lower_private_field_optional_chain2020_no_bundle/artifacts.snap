@@ -1,0 +1,12 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_private_field_optional_chain2020_no_bundle
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+```

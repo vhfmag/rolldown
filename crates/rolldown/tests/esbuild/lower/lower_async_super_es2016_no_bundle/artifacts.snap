@@ -1,0 +1,27 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_async_super_es2016_no_bundle
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+//#region entry.js
+for (let i = 0; i < 3; i++) {
+	objs.push({
+		__proto__:{
+			foo(){
+				return i;
+			}
+		},
+		async bar(){
+			return super.foo();
+		}
+	});
+}
+
+//#endregion
+```

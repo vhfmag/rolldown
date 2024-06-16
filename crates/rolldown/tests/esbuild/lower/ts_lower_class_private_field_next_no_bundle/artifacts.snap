@@ -1,0 +1,12 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/ts_lower_class_private_field_next_no_bundle
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+```

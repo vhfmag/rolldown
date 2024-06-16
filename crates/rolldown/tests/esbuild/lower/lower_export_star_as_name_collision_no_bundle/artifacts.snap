@@ -1,0 +1,26 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_export_star_as_name_collision_no_bundle
+---
+# warnings
+
+## UNRESOLVED_IMPORT
+
+```text
+[UNRESOLVED_IMPORT] Warning: "path" is imported by "entry.js", but could not be resolved – treating it as an external dependency.
+
+```
+# Assets
+
+## entry_js.mjs
+
+```js
+import * as ns from "path";
+
+//#region entry.js
+let ns$1 = 123;
+
+//#endregion
+export { ns, ns$1 as sn };
+```

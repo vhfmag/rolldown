@@ -1,0 +1,71 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_async_generator_no_await
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+//#region entry.ts
+async function* foo() {
+	yield;
+	yield x;
+	yield*x;
+await using x = await y
+;	for  await(let x$1 of  y) 	{
+	}
+	for  await(await using x of  y) 	{
+	}
+}
+foo = async function* () {
+	yield;
+	yield x;
+	yield*x;
+await using x = await y
+;	for  await(let x$1 of  y) 	{
+	}
+	for  await(await using x of  y) 	{
+	}
+};
+foo = {
+	async *bar(){
+		yield;
+		yield x;
+		yield*x;
+await using x = await y
+;		for  await(let x$1 of  y) 		{
+		}
+		for  await(await using x of  y) 		{
+		}
+	}
+};
+class Foo {
+	async *bar(){
+		yield;
+		yield x;
+		yield*x;
+await using x = await y
+;		for  await(let x$1 of  y) 		{
+		}
+		for  await(await using x of  y) 		{
+		}
+	}
+}
+Foo = class {
+	async *bar(){
+		yield;
+		yield x;
+		yield*x;
+await using x = await y
+;		for  await(let x$1 of  y) 		{
+		}
+		for  await(await using x of  y) 		{
+		}
+	}
+};
+
+//#endregion
+```

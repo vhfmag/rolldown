@@ -1,0 +1,44 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_export_star_as_name_collision
+---
+# warnings
+
+## UNRESOLVED_IMPORT
+
+```text
+[UNRESOLVED_IMPORT] Warning: "path1" is imported by "entry.js", but could not be resolved – treating it as an external dependency.
+
+```
+## UNRESOLVED_IMPORT
+
+```text
+[UNRESOLVED_IMPORT] Warning: "path2" is imported by "nested.js", but could not be resolved – treating it as an external dependency.
+
+```
+# Assets
+
+## entry_js.mjs
+
+```js
+import * as foo from "path2";
+import * as ns from "path1";
+
+
+//#region nested.js
+var nested_ns = {};
+__export(nested_ns, {
+	foo:() => foo,
+	oof:() => foo$1
+});
+let foo$1 = 123;
+
+//#endregion
+//#region entry.js
+console.log(nested_ns.foo, nested_ns.oof);
+let ns$1 = 123;
+
+//#endregion
+export { ns, ns$1 as sn };
+```

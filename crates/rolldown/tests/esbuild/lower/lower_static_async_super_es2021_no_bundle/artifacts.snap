@@ -1,0 +1,12 @@
+---
+source: crates/rolldown/tests/common/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/lower/lower_static_async_super_es2021_no_bundle
+---
+# Assets
+
+## entry_js.mjs
+
+```js
+
+```
