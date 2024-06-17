@@ -5,6 +5,7 @@
         "name": "entry_ts",
         "import": "entry.ts"
       }
-    ]
+    ],
+    "treeshake": false
   }
 }

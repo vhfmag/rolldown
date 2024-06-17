@@ -9,18 +9,6 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_nested_function_direct_eva
 
 ```text
 [EVAL] Warning: Use of eval is strongly discouraged as it poses security risks and may cause issues with minification.
-   ╭─[4.js:1:12]
-   │
- 1 │ if (foo) { eval(''); function x() {} }
-   │            ──┬─  
-   │              ╰─── Used `eval` function here.
-───╯
-
-```
-## EVAL
-
-```text
-[EVAL] Warning: Use of eval is strongly discouraged as it poses security risks and may cause issues with minification.
    ╭─[2.js:1:28]
    │
  1 │ if (foo) { function x() {} eval('') }
@@ -38,6 +26,18 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_nested_function_direct_eva
  1 │ if (foo) { function x() {} if (bar) { eval('') } }
    │                                       ──┬─  
    │                                         ╰─── Used `eval` function here.
+───╯
+
+```
+## EVAL
+
+```text
+[EVAL] Warning: Use of eval is strongly discouraged as it poses security risks and may cause issues with minification.
+   ╭─[4.js:1:12]
+   │
+ 1 │ if (foo) { eval(''); function x() {} }
+   │            ──┬─  
+   │              ╰─── Used `eval` function here.
 ───╯
 
 ```

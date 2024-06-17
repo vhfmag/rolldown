@@ -5,6 +5,7 @@
         "name": "entry_jsx",
         "import": "entry.jsx"
       }
-    ]
+    ],
+    "treeshake": false
   }
 }

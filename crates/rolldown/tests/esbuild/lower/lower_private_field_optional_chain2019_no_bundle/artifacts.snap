@@ -9,4 +9,16 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_private_field_optional_cha
 
 ```js
 
+//#region entry.js
+class Foo {
+	#x;
+
+	foo(){
+		this?.#x.y;
+		this?.y.#x;
+		this.#x?.y;
+	}
+}
+
+//#endregion
 ```

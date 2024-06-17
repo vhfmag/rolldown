@@ -5,7 +5,7 @@
         "name": "entry_js",
         "import": "entry.js"
       }
-    ]
-  },
-  "treeshake": false
+    ],
+    "treeshake": false
+  }
 }

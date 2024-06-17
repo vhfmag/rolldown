@@ -10,6 +10,36 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_async_super_es2017_no_bund
 ```js
 
 //#region entry.js
+class Derived extends Base {
+	async test(key){
+		return [await super.foo, await super[key], await ([super.foo] = [0]), await ([super[key]] = [0]), await (super.foo = 1), await (super[key] = 1), await (super.foo += 2), await (super[key] += 2), await  ++super.foo, await  ++super[key], await super.foo++, await super[key]++, await super.foo.name, await super[key].name, await super.foo?.name, await super[key]?.name, await super.foo(1, 2), await super[key](1, 2), await super.foo?.(1, 2), await super[key]?.(1, 2), await (() => super.foo)(), await (() => super[key])(), await (() => super.foo())(), await (() => super[key]())(), await super.foo` + "``" + `, await super[key]` + "``" + `,];
+	}
+}
+let fn = async() => class extends Base {
+	a=super.a;
+
+	b=() => super.b;
+
+	c(){
+		return super.c;
+	}
+	d(){
+		return () => super.d;
+	}
+};
+class Derived2 extends Base {
+	async a(){
+		return class {
+			[super.foo]=123;
+
+		};
+	}
+	b=async() => class {
+		[super.foo]=123;
+
+	};
+
+}
 for (let i = 0; i < 3; i++) {
 	objs.push({
 		__proto__:{
