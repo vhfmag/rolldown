@@ -1,0 +1,8 @@
+crates/rolldown/tests/esbuild/lower/java_script_decorators_es_next/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_async2017_no_bundle/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_class_field_next_no_bundle/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_export_star_as_name_collision_no_bundle/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_private_field_assignments_next_no_bundle/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_private_field_optional_chain_next_no_bundle/artifacts.snap
+crates/rolldown/tests/esbuild/lower/lower_private_super_es2022/artifacts.snap
+crates/rolldown/tests/esbuild/lower/ts_lower_class_private_field_next_no_bundle/artifacts.snap

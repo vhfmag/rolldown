@@ -8,12 +8,6 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_using_hoisting
 ## UNRESOLVED_IMPORT
 
 ```text
-[UNRESOLVED_IMPORT] Warning: "./foo" is imported by "hoist-import.js", but could not be resolved – treating it as an external dependency.
-
-```
-## UNRESOLVED_IMPORT
-
-```text
 [UNRESOLVED_IMPORT] Warning: "./foo" is imported by "hoist-export-star.js", but could not be resolved – treating it as an external dependency.
 
 ```
@@ -21,6 +15,12 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_using_hoisting
 
 ```text
 [UNRESOLVED_IMPORT] Warning: "./foo" is imported by "hoist-export-from.js", but could not be resolved – treating it as an external dependency.
+
+```
+## UNRESOLVED_IMPORT
+
+```text
+[UNRESOLVED_IMPORT] Warning: "./foo" is imported by "hoist-import.js", but could not be resolved – treating it as an external dependency.
 
 ```
 # Assets

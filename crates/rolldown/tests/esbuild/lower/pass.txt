@@ -1,2 +1,0 @@
-crates/rolldown/tests/esbuild/lower/java_script_decorators_es_next/artifacts.snap
-crates/rolldown/tests/esbuild/lower/lower_async2017_no_bundle/artifacts.snap

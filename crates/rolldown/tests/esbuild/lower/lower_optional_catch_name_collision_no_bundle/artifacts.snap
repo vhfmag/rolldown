@@ -9,4 +9,11 @@ input_file: crates/rolldown/tests/esbuild/lower/lower_optional_catch_name_collis
 
 ```js
 
+//#region entry.js
+try{
+}catch{
+	var e, e2;
+}var e3;
+
+//#endregion
 ```
