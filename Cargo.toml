@@ -16,8 +16,7 @@ inherits = "release"
 codegen-units = 16
 debug         = 'full'
 inherits      = "release"
-lto           = "thin"
-opt-level     = "z"
+lto           = true
 strip         = "none"
 
 [workspace.lints.rust]
