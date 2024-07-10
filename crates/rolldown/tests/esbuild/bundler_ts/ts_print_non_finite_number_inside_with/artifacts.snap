@@ -1,0 +1,27 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_print_non_finite_number_inside_with
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+//#region entry.ts
+var Foo = function(Foo$1) {
+	Foo$1[Foo$1['NAN'] = NaN] = 'NAN';
+	Foo$1[Foo$1['POS_INF'] = Infinity] = 'POS_INF';
+	Foo$1[Foo$1['NEG_INF'] = -Infinity] = 'NEG_INF';
+	return Foo$1;
+}(Foo || {});
+console.log(Foo.NAN, Foo.POS_INF, Foo.NEG_INF);
+checkPrecedence(1 / Foo.NAN, 1 / Foo.POS_INF, 1 / Foo.NEG_INF);
+with(x) {
+	console.log(Foo.NAN, Foo.POS_INF, Foo.NEG_INF);
+	checkPrecedence(1 / Foo.NAN, 1 / Foo.POS_INF, 1 / Foo.NEG_INF);
+}
+
+//#endregion
+```

@@ -1,0 +1,26 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_import_equals_undefined_import
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+
+//#region import.ts
+var import_ns = {};
+__export(import_ns, {value: () => value});
+let value = 123;
+
+//#endregion
+//#region entry.ts
+var value_copy = value;
+var Type_copy = import_ns.Type;
+let foo = value_copy;
+console.log(foo);
+
+//#endregion
+```

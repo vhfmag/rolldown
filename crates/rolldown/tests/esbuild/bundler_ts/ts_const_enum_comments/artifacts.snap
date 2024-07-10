@@ -1,0 +1,32 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_const_enum_comments
+---
+# Assets
+
+## foo_ts.mjs
+
+```js
+
+//#region bar.ts
+let Foo = function(Foo$1) {
+	Foo$1[Foo$1['%/*'] = 1] = '%/*';
+	Foo$1[Foo$1['*/%'] = 2] = '*/%';
+	return Foo$1;
+}({});
+
+//#endregion
+//#region foo.ts
+var Bar = function(Bar$1) {
+	Bar$1[Bar$1['%/*'] = 1] = '%/*';
+	Bar$1[Bar$1['*/%'] = 2] = '*/%';
+	return Bar$1;
+}(Bar || {});
+console.log({
+	'should have comments': [Foo['%/*'], Bar['%/*'],],
+	'should not have comments': [Foo['*/%'], Bar['*/%'],]
+});
+
+//#endregion
+```

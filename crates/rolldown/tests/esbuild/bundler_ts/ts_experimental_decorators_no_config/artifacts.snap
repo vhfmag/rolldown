@@ -1,0 +1,48 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_experimental_decorators_no_config
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+//#region entry.ts
+@x.y() @(new y.x()) class Foo {
+	@x @y mUndef;
+	@x @y mDef = 1;
+	@x @y method() {
+		return new Foo();
+	}
+	@x @y mDecl;
+	accessor aUndef;;
+	accessor aDef=1;;
+	@x @y static sUndef;
+	@x @y static sDef = new Foo();
+	@x @y static sMethod() {
+		return new Foo();
+	}
+	@x @y static sDecl;
+	static accessor asUndef;;
+	static accessor asDef=1;;
+	@x @y #mUndef;
+	@x @y #mDef = 1;
+	@x @y #method() {
+		return new Foo();
+	}
+	accessor #aUndef;;
+	accessor #aDef=1;;
+	@x @y static #sUndef;
+	@x @y static #sDef = 1;
+	@x @y static #sMethod() {
+		return new Foo();
+	}
+	static accessor #asUndef;;
+	static accessor #asDef=1;;
+}
+
+//#endregion
+export { Foo as default };
+```

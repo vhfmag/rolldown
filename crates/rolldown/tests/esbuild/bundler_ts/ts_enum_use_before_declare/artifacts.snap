@@ -1,0 +1,26 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_enum_use_before_declare
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+//#region entry.ts
+function before() {
+	console.log(Foo.FOO);
+}
+var Foo = function(Foo$1) {
+	Foo$1[Foo$1['FOO'] = 0] = 'FOO';
+	return Foo$1;
+}(Foo || {});
+function after() {
+	console.log(Foo.FOO);
+}
+
+//#endregion
+export { after, before };
+```

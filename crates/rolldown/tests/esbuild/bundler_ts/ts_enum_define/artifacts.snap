@@ -1,0 +1,20 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_enum_define
+---
+# Assets
+
+## entry_ts.mjs
+
+```js
+
+//#region entry.ts
+var a = function(a$1) {
+	a$1[a$1['b'] = 123] = 'b';
+	a$1[a$1['c'] = a$1.d] = 'c';
+	return a$1;
+}(a || {});
+
+//#endregion
+```

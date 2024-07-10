@@ -1,0 +1,27 @@
+---
+source: crates/rolldown_testing/src/case/case.rs
+expression: content
+input_file: crates/rolldown/tests/esbuild/bundler_ts/ts_import_equals_bundle
+---
+# warnings
+
+## UNRESOLVED_IMPORT
+
+```text
+[UNRESOLVED_IMPORT] Warning: "pkg" is imported by "entry.ts", but could not be resolved – treating it as an external dependency.
+
+```
+# Assets
+
+## entry_ts.mjs
+
+```js
+import { foo } from "pkg";
+
+//#region entry.ts
+var used = foo.used;
+var unused = foo.unused;
+
+//#endregion
+export { used };
+```
