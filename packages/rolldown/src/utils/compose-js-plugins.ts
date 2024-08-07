@@ -8,7 +8,6 @@ import { BuiltinPlugin } from '../plugin/builtin-plugin'
 // we have to bailout all plugins with `resolveId` hook.
 const unsupportedHooks = new Set([
   'augmentChunkHash',
-  'banner',
   'footer',
   'generateBundle',
   'moduleParsed',
@@ -86,6 +85,14 @@ function createComposedPlugin(plugins: Plugin[]): Plugin {
           }
           break
         }
+        case 'banner': {
+          const handlers = batchedHooks.banner ?? []
+          batchedHooks.banner = handlers
+          if (plugin.banner) {
+            handlers.push(plugin.banner)
+          }
+          break
+        }
         case 'augmentChunkHash':
         case 'banner':
         case 'footer':
@@ -145,6 +152,24 @@ function createComposedPlugin(plugins: Plugin[]): Plugin {
                   return result
                 }
               }
+            }
+          }
+          break
+        }
+        case 'banner': {
+          if (batchedHooks.banner) {
+            const batchedHandlers = batchedHooks.banner
+            composed.banner = async function (id) {
+              let ret = []
+              for (const handler of batchedHandlers) {
+                const [addonHook, _handlerOptions] = normalizeHook(handler)
+                if (typeof addonHook === 'function') {
+                  ret.push(await addonHook.call(this, id))
+                } else {
+                  ret.push(addonHook)
+                }
+              }
+              return ret.join('\n')
             }
           }
           break
