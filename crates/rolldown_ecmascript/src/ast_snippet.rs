@@ -21,8 +21,8 @@ pub struct AstSnippet<'ast> {
 }
 
 impl<'ast> AstSnippet<'ast> {
-  pub fn new(alloc: &'ast Allocator) -> Self {
-    Self { builder: AstBuilder::new(alloc) }
+  pub fn new(builder: AstBuilder<'a>) -> Self {
+    Self { builder }
   }
 
   #[inline]

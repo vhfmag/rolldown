@@ -1,6 +1,9 @@
 use oxc::{
   allocator::Allocator,
-  ast::ast::{ObjectPropertyKind, Statement},
+  ast::{
+    ast::{ObjectPropertyKind, Statement},
+    AstBuilder,
+  },
   span::CompactStr,
 };
 use rolldown_common::{AstScopes, EcmaModule, IndexModules};
@@ -20,7 +23,7 @@ pub struct IsolatingModuleFinalizerContext<'me> {
 pub struct IsolatingModuleFinalizer<'me, 'ast> {
   pub ctx: &'me IsolatingModuleFinalizerContext<'me>,
   pub scope: &'me AstScopes,
-  pub alloc: &'ast Allocator,
+  pub builder: AstBuilder<'ast>,
   pub snippet: AstSnippet<'ast>,
   pub generated_imports_set: FxHashSet<CompactStr>,
   pub generated_imports: oxc::allocator::Vec<'ast, Statement<'ast>>,

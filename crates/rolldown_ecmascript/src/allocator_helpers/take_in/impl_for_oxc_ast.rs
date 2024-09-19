@@ -1,424 +1,440 @@
 use std::cell::Cell;
 
 use oxc::{
-  allocator::{Allocator, Box},
-  ast::ast,
+  allocator::Box,
+  ast::{ast, AstBuilder},
   span::{Atom, SourceType, SPAN},
 };
 
 use super::TakeIn;
 
 impl<'ast> TakeIn<'ast> for ast::VariableDeclarationKind {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::Var
   }
 }
 impl<'ast> TakeIn<'ast> for ast::ThisExpression {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    builder.this_expression(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::VariableDeclaration<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      kind: TakeIn::dummy(alloc),
-      declarations: TakeIn::dummy(alloc),
-      declare: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      kind: TakeIn::dummy(builder),
+      declarations: TakeIn::dummy(builder),
+      declare: TakeIn::dummy(builder),
     }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::Declaration<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::VariableDeclaration(Box::new_in(TakeIn::dummy(alloc), alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::VariableDeclaration(Box::new_in(TakeIn::dummy(builder), alloc))
   }
 }
 impl<'ast> TakeIn<'ast> for ast::ExpressionStatement<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), expression: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), expression: TakeIn::dummy(builder) }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::FunctionType {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::FunctionDeclaration
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::FormalParameterKind {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::Signature
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::FormalParameters<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      kind: TakeIn::dummy(alloc),
-      items: TakeIn::dummy(alloc),
-      rest: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      kind: TakeIn::dummy(builder),
+      items: TakeIn::dummy(builder),
+      rest: TakeIn::dummy(builder),
     }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::ClassBody<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), body: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), body: TakeIn::dummy(builder) }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::ClassType {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::ClassDeclaration
   }
 }
 impl<'ast> TakeIn<'ast> for ast::Class<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      r#type: TakeIn::dummy(alloc),
-      span: TakeIn::dummy(alloc),
-      id: TakeIn::dummy(alloc),
-      super_class: TakeIn::dummy(alloc),
-      body: TakeIn::dummy(alloc),
-      type_parameters: TakeIn::dummy(alloc),
-      super_type_parameters: TakeIn::dummy(alloc),
-      implements: TakeIn::dummy(alloc),
-      decorators: TakeIn::dummy(alloc),
-      r#abstract: TakeIn::dummy(alloc),
-      declare: TakeIn::dummy(alloc),
+      r#type: TakeIn::dummy(builder),
+      span: TakeIn::dummy(builder),
+      id: TakeIn::dummy(builder),
+      super_class: TakeIn::dummy(builder),
+      body: TakeIn::dummy(builder),
+      type_parameters: TakeIn::dummy(builder),
+      super_type_parameters: TakeIn::dummy(builder),
+      implements: TakeIn::dummy(builder),
+      decorators: TakeIn::dummy(builder),
+      r#abstract: TakeIn::dummy(builder),
+      declare: TakeIn::dummy(builder),
       scope_id: Cell::default(),
     }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::Function<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      r#type: TakeIn::dummy(alloc),
-      span: TakeIn::dummy(alloc),
-      id: TakeIn::dummy(alloc),
-      generator: TakeIn::dummy(alloc),
-      r#async: TakeIn::dummy(alloc),
-      declare: TakeIn::dummy(alloc),
-      params: TakeIn::dummy(alloc),
-      body: TakeIn::dummy(alloc),
-      type_parameters: TakeIn::dummy(alloc),
-      return_type: TakeIn::dummy(alloc),
-      this_param: TakeIn::dummy(alloc),
+      r#type: TakeIn::dummy(builder),
+      span: TakeIn::dummy(builder),
+      id: TakeIn::dummy(builder),
+      generator: TakeIn::dummy(builder),
+      r#async: TakeIn::dummy(builder),
+      declare: TakeIn::dummy(builder),
+      params: TakeIn::dummy(builder),
+      body: TakeIn::dummy(builder),
+      type_parameters: TakeIn::dummy(builder),
+      return_type: TakeIn::dummy(builder),
+      this_param: TakeIn::dummy(builder),
       scope_id: Cell::default(),
     }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::Expression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::ThisExpression(Box::new_in(TakeIn::dummy(alloc), alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::ThisExpression(Box::new_in(TakeIn::dummy(builder), alloc))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::IdentifierName<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), name: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), name: TakeIn::dummy(builder) }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::StaticMemberExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      object: TakeIn::dummy(alloc),
-      property: TakeIn::dummy(alloc),
-      optional: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      object: TakeIn::dummy(builder),
+      property: TakeIn::dummy(builder),
+      optional: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::IdentifierReference<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), name: TakeIn::dummy(alloc), reference_id: Cell::default() }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self {
+      span: TakeIn::dummy(builder),
+      name: TakeIn::dummy(builder),
+      reference_id: Cell::default(),
+    }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::Program<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
       source_type: SourceType::default(),
-      directives: TakeIn::dummy(alloc),
-      hashbang: TakeIn::dummy(alloc),
-      body: TakeIn::dummy(alloc),
+      directives: TakeIn::dummy(builder),
+      hashbang: TakeIn::dummy(builder),
+      body: TakeIn::dummy(builder),
       scope_id: Cell::default(),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::VariableDeclarator<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      kind: TakeIn::dummy(alloc),
-      id: TakeIn::dummy(alloc),
-      init: TakeIn::dummy(alloc),
-      definite: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      kind: TakeIn::dummy(builder),
+      id: TakeIn::dummy(builder),
+      init: TakeIn::dummy(builder),
+      definite: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::BindingPattern<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      kind: TakeIn::dummy(alloc),
-      type_annotation: TakeIn::dummy(alloc),
-      optional: TakeIn::dummy(alloc),
+      kind: TakeIn::dummy(builder),
+      type_annotation: TakeIn::dummy(builder),
+      optional: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::BindingPatternKind<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::BindingIdentifier(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::BindingIdentifier(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::BindingIdentifier<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), name: TakeIn::dummy(alloc), symbol_id: Cell::default() }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), name: TakeIn::dummy(builder), symbol_id: Cell::default() }
   }
 }
 
 impl<'ast> TakeIn<'ast> for Atom<'ast> {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Atom::from("")
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::CallExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      callee: TakeIn::dummy(alloc),
-      arguments: TakeIn::dummy(alloc),
-      optional: TakeIn::dummy(alloc),
-      type_parameters: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      callee: TakeIn::dummy(builder),
+      arguments: TakeIn::dummy(builder),
+      optional: TakeIn::dummy(builder),
+      type_parameters: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ArrowFunctionExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      expression: TakeIn::dummy(alloc),
-      r#async: TakeIn::dummy(alloc),
-      params: TakeIn::dummy(alloc),
-      body: TakeIn::dummy(alloc),
-      type_parameters: TakeIn::dummy(alloc),
-      return_type: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      expression: TakeIn::dummy(builder),
+      r#async: TakeIn::dummy(builder),
+      params: TakeIn::dummy(builder),
+      body: TakeIn::dummy(builder),
+      type_parameters: TakeIn::dummy(builder),
+      return_type: TakeIn::dummy(builder),
       scope_id: Cell::default(),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::FunctionBody<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      directives: TakeIn::dummy(alloc),
-      statements: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      directives: TakeIn::dummy(builder),
+      statements: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::FormalParameter<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      pattern: TakeIn::dummy(alloc),
-      accessibility: TakeIn::dummy(alloc),
-      readonly: TakeIn::dummy(alloc),
-      decorators: TakeIn::dummy(alloc),
-      r#override: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      pattern: TakeIn::dummy(builder),
+      accessibility: TakeIn::dummy(builder),
+      readonly: TakeIn::dummy(builder),
+      decorators: TakeIn::dummy(builder),
+      r#override: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::SequenceExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), expressions: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), expressions: TakeIn::dummy(builder) }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ParenthesizedExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), expression: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), expression: TakeIn::dummy(builder) }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      operator: TakeIn::dummy(alloc),
-      left: TakeIn::dummy(alloc),
-      right: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      operator: TakeIn::dummy(builder),
+      left: TakeIn::dummy(builder),
+      right: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentTarget<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::AssignmentTargetIdentifier(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::AssignmentTargetIdentifier(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::SimpleAssignmentTarget<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::AssignmentTargetIdentifier(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::AssignmentTargetIdentifier(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ArrayAssignmentTarget<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      elements: TakeIn::dummy(alloc),
-      rest: TakeIn::dummy(alloc),
-      trailing_comma: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      elements: TakeIn::dummy(builder),
+      rest: TakeIn::dummy(builder),
+      trailing_comma: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ObjectAssignmentTarget<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      properties: TakeIn::dummy(alloc),
-      rest: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      properties: TakeIn::dummy(builder),
+      rest: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentTargetPropertyIdentifier<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { init: TakeIn::dummy(alloc), span: TakeIn::dummy(alloc), binding: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self {
+      init: TakeIn::dummy(builder),
+      span: TakeIn::dummy(builder),
+      binding: TakeIn::dummy(builder),
+    }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentTargetMaybeDefault<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::AssignmentTargetIdentifier(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::AssignmentTargetIdentifier(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentTargetPropertyProperty<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { name: TakeIn::dummy(alloc), span: TakeIn::dummy(alloc), binding: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self {
+      name: TakeIn::dummy(builder),
+      span: TakeIn::dummy(builder),
+      binding: TakeIn::dummy(builder),
+    }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::AssignmentTargetWithDefault<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), binding: TakeIn::dummy(alloc), init: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self {
+      span: TakeIn::dummy(builder),
+      binding: TakeIn::dummy(builder),
+      init: TakeIn::dummy(builder),
+    }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ObjectExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      properties: TakeIn::dummy(alloc),
-      trailing_comma: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      properties: TakeIn::dummy(builder),
+      trailing_comma: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ObjectProperty<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      kind: TakeIn::dummy(alloc),
-      key: TakeIn::dummy(alloc),
-      value: TakeIn::dummy(alloc),
-      init: TakeIn::dummy(alloc),
-      method: TakeIn::dummy(alloc),
-      shorthand: TakeIn::dummy(alloc),
-      computed: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      kind: TakeIn::dummy(builder),
+      key: TakeIn::dummy(builder),
+      value: TakeIn::dummy(builder),
+      init: TakeIn::dummy(builder),
+      method: TakeIn::dummy(builder),
+      shorthand: TakeIn::dummy(builder),
+      computed: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ObjectPropertyKind<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::ObjectProperty(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::ObjectProperty(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::PropertyKind {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::Init
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::PropertyKey<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self::Identifier(TakeIn::dummy(alloc))
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self::Identifier(TakeIn::dummy(builder))
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::UnaryExpression<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      operator: TakeIn::dummy(alloc),
-      argument: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      operator: TakeIn::dummy(builder),
+      argument: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::StringLiteral<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), value: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), value: TakeIn::dummy(builder) }
   }
 }
 impl<'ast> TakeIn<'ast> for ast::ImportOrExportKind {
-  fn dummy(_alloc: &'ast Allocator) -> Self {
+  fn dummy(_builder: AstBuilder<'ast>) -> Self {
     Self::Value
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ImportDeclaration<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      specifiers: TakeIn::dummy(alloc),
-      source: TakeIn::dummy(alloc),
-      with_clause: TakeIn::dummy(alloc),
-      import_kind: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      specifiers: TakeIn::dummy(builder),
+      source: TakeIn::dummy(builder),
+      with_clause: TakeIn::dummy(builder),
+      import_kind: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ObjectPattern<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
-      span: TakeIn::dummy(alloc),
-      properties: TakeIn::dummy(alloc),
-      rest: TakeIn::dummy(alloc),
+      span: TakeIn::dummy(builder),
+      properties: TakeIn::dummy(builder),
+      rest: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::BindingProperty<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
     Self {
       span: SPAN,
-      key: TakeIn::dummy(alloc),
-      value: TakeIn::dummy(alloc),
-      shorthand: TakeIn::dummy(alloc),
-      computed: TakeIn::dummy(alloc),
+      key: TakeIn::dummy(builder),
+      value: TakeIn::dummy(builder),
+      shorthand: TakeIn::dummy(builder),
+      computed: TakeIn::dummy(builder),
     }
   }
 }
 
 impl<'ast> TakeIn<'ast> for ast::ReturnStatement<'ast> {
-  fn dummy(alloc: &'ast Allocator) -> Self {
-    Self { span: TakeIn::dummy(alloc), argument: TakeIn::dummy(alloc) }
+  fn dummy(builder: AstBuilder<'ast>) -> Self {
+    Self { span: TakeIn::dummy(builder), argument: TakeIn::dummy(builder) }
   }
 }
