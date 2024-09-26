@@ -6,5 +6,6 @@
         "import": "entry.js"
       }
     ]
-  }
+  },
+  "format": "cjs"
 }
