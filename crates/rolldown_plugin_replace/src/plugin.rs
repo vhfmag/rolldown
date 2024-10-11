@@ -5,7 +5,7 @@ use std::{cmp::Reverse, collections::HashMap, sync::LazyLock};
 use regex::Regex;
 use rolldown_plugin::{HookRenderChunkOutput, HookTransformOutput, Plugin};
 use rustc_hash::FxHashMap;
-use string_wizard::MagicString;
+use string_wizard::{MagicString, SourceMapOptions};
 
 use crate::utils::expand_typeof_replacements;
 
@@ -164,6 +164,11 @@ impl Plugin for ReplacePlugin {
     if self.try_replace(args.code, &mut magic_string) {
       return Ok(Some(HookTransformOutput {
         code: Some(magic_string.to_string()),
+        map: Some(magic_string.source_map(SourceMapOptions {
+          hires: true,
+          include_content: true,
+          source: args.code.as_str().into(),
+        })),
         ..Default::default()
       }));
     }
@@ -177,7 +182,14 @@ impl Plugin for ReplacePlugin {
   ) -> rolldown_plugin::HookRenderChunkReturn {
     let mut magic_string = MagicString::new(&args.code);
     if self.try_replace(&args.code, &mut magic_string) {
-      return Ok(Some(HookRenderChunkOutput { code: magic_string.to_string(), map: None }));
+      return Ok(Some(HookRenderChunkOutput {
+        code: magic_string.to_string(),
+        map: Some(magic_string.source_map(SourceMapOptions {
+          hires: true,
+          include_content: true,
+          source: args.code.as_str().into(),
+        })),
+      }));
     }
     Ok(None)
   }

@@ -9,20 +9,25 @@ use rolldown_testing::{abs_file_dir, integration_test::IntegrationTest, test_con
 async fn replace_strings() {
   let cwd = abs_file_dir!();
 
-  IntegrationTest::new(TestMeta { expect_executed: false, ..Default::default() })
-    .run_with_plugins(
-      BundlerOptions {
-        input: Some(vec!["./input.js".to_string().into()]),
-        cwd: Some(cwd),
-        ..Default::default()
-      },
-      vec![Arc::new(ReplacePlugin::new(
-        [
-          ("ANSWER".to_string(), "42".to_string()),
-          ("typeof window".to_string(), "\"object\"".to_string()),
-        ]
-        .into(),
-      ))],
-    )
-    .await;
+  IntegrationTest::new(TestMeta {
+    expect_executed: false,
+    visualize_sourcemap: true,
+    ..Default::default()
+  })
+  .run_with_plugins(
+    BundlerOptions {
+      input: Some(vec!["./input.js".to_string().into()]),
+      sourcemap: Some(rolldown::SourceMapType::File),
+      cwd: Some(cwd),
+      ..Default::default()
+    },
+    vec![Arc::new(ReplacePlugin::new(
+      [
+        ("ANSWER".to_string(), "42".to_string()),
+        ("typeof window".to_string(), "\"object\"".to_string()),
+      ]
+      .into(),
+    ))],
+  )
+  .await;
 }

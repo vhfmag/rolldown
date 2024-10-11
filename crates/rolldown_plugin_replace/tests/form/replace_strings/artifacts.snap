@@ -12,4 +12,20 @@ console.log(42);
 console.log("object");
 
 //#endregion
+//# sourceMappingURL=input.js.map
+```
+
+# Sourcemap Visualizer
+
+```
+- ../../../../console.log(ANSWER); / eslint-disable-line
+console.log(typeof window);
+(0:0-0:8) "console." --> (2:0-2:8) "\nconsole"
+(0:8-0:12) "log(" --> (2:8-2:12) ".log"
+(0:12-0:19) "ANSWER)" --> (2:12-2:15) "(42"
+(0:19-1:0) "; // eslint-disable-line" --> (2:15-3:0) ");"
+(1:0-1:8) "\nconsole" --> (3:0-3:8) "\nconsole"
+(1:8-1:12) ".log" --> (3:8-3:12) ".log"
+(1:12-1:26) "(typeof window" --> (3:12-3:21) "(\"object\""
+(1:26-1:28) ");" --> (3:21-6:34) ");\n\n//#endregion\n//# sourceMappingURL=input.js.map"
 ```

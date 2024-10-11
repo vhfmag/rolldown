@@ -12,4 +12,20 @@ console.log("as-it");
 console.log(typeof window.document);
 
 //#endregion
+//# sourceMappingURL=input.js.map
+```
+
+# Sourcemap Visualizer
+
+```
+- ../input.js
+(0:0-0:8) "console." --> (2:0-2:8) "\nconsole"
+(0:8-0:12) "log(" --> (2:8-2:12) ".log"
+(0:12-0:20) "'as-it')" --> (2:12-2:20) "(\"as-it\""
+(0:20-1:0) "; // eslint-disable-line" --> (2:20-3:0) ");"
+(1:0-1:8) "\nconsole" --> (3:0-3:8) "\nconsole"
+(1:8-1:19) ".log(typeof" --> (3:8-3:19) ".log(typeof"
+(1:19-1:26) " window" --> (3:19-3:26) " window"
+(1:26-1:35) ".document" --> (3:26-3:35) ".document"
+(1:35-1:60) "); // eslint-disable-line" --> (3:35-6:34) ");\n\n//#endregion\n//# sourceMappingURL=input.js.map"
 ```
